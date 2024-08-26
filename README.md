@@ -114,6 +114,9 @@ shape: (4_757, 80)
 └─────────┴──────────────────────────┴─────────────────────┴────────────────────┴───┴──────────────────┴─────────────────┴─────────────────────────────────┴──────────────────┘ 
 ```
 
+Note that this package uses Selenium in order to run javascript on the FFIEC site before downloading the entire call report.  If you have issues running Selenium (which will invoke the generation of a "headless" Chrome session), you may want to include an "options" parameter in the creation of the CallReport object and include "options={headless: false}".
+
+
 ## Development
 
 After checking out the repo, run `bin/setup` to install dependencies. You can also run `bin/console` for an interactive prompt that will allow you to experiment.

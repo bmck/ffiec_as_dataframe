@@ -12,7 +12,7 @@ Gem::Specification.new do |spec|
   spec.description   = "Call report data from FFIEC"
   spec.homepage      = "https://github.com/bmck/ffiec_as_dataframe"
   spec.license       = "MIT"
-  spec.required_ruby_version = Gem::Requirement.new(">= 2.3.0")
+  spec.required_ruby_version = Gem::Requirement.new(">= 3.3")
 
   spec.metadata["homepage_uri"] = spec.homepage
   spec.metadata["source_code_uri"] = "https://github.com/bmck/ffiec_as_dataframe"
@@ -28,7 +28,7 @@ Gem::Specification.new do |spec|
   spec.require_paths = ["lib"]
 
   # Uncomment to register a new dependency of your gem
-  spec.add_dependency 'polars-df'
+  spec.add_dependency 'polars-df', '0.27.1'
   spec.add_dependency 'rubyzip'
   spec.add_dependency 'activesupport', '~> 6', '<7.0.8'
   spec.add_dependency 'selenium-webdriver'

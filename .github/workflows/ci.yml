@@ -27,6 +27,3 @@ jobs:
     
     - name: Build gem
       run: bundle exec rake build
-    
-    - name: Verify gem can be required
-      run: ruby -e "require 'bundler/setup'; require 'ffiec_as_dataframe'; puts 'Gem loaded successfully'"

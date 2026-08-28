@@ -1,3 +1,4 @@
+require 'set'
 require 'polars-df'
 require 'csv'
 require 'zip'
@@ -18,9 +19,7 @@ module FfiecAsDataframe
     end
 
     def fetch
-      prefix = 'All_Reports_'
       dte = dt.end_of_quarter
-      # dir = prefix + date.year.to_s + format('%02d', date.month.to_s) + date.mday.to_s
       df = nil
 
       Dir.mktmpdir(nil, Dir.tmpdir) do |d|
@@ -33,7 +32,6 @@ module FfiecAsDataframe
         sleep(0.2)
         driver.find_elements(css: 'select#ListBox1 option').detect{|o| o.text == 'Call Reports -- Single Period'}.click()
 
-        dte_found = false
         dte = dte.strftime("%m/%d/%Y").to_s
 
         if (opt = driver.find_elements(css: 'select#DatesDropDownList option').detect{ |o| o.text == dte }).present?

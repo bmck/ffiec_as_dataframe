@@ -4,6 +4,11 @@ Up-to-date call report data access for Ruby, using Polars dataframes.
 
 This package will fetch call report data (from US banks) from the Federal Financial Institutions Examination Council (FFIEC), and return the results as a Polars Dataframe. 
 
+## Requirements
+
+- Ruby >= 3.3
+- polars-df 0.27.1
+
 ## Installation
 
 Add this line to your application's Gemfile:
@@ -24,12 +29,12 @@ Or install it yourself as:
 
 With no arguments provided in the initialization call, the gem will fetch the most recent call report data, and return it as a Polars dataframe.  Note that most of the column names correspond to 8 character abbreviations that are documented at https://www.federalreserve.gov/apps/mdrm/data-dictionary .  As requirements have changed over time, the number of columns will change with each release of the call report data.
 
-```{ruby}
-3.1.2 :003 > x = FfiecAsDataframe::CallReport.new.fetch
+```ruby
+3.3.x :003 > x = FfiecAsDataframe::CallReport.new.fetch
  => 
 shape: (4_594, 3_817)                                                                             
 ...                                                                                               
-3.1.2 :004 > x
+3.3.x :004 > x
  => 
 shape: (4_594, 3_817)                                                                             
 ┌─────────┬─────────────────────────┬────────────────────┬───────────────────┬───┬──────────┬──────────┬──────────┬──────────┐
@@ -53,16 +58,16 @@ shape: (4_594, 3_817)
 
 A specific vintage of call report data can be fetched by specifying the "dt" argument in the initialization call.
 
-```{ruby}
-3.1.2 :005 > x = FfiecAsDataframe::CallReport.new(dt= '2022-12-31'.to_date).fetch
+```ruby
+3.3.x :005 > x = FfiecAsDataframe::CallReport.new(dt= '2022-12-31'.to_date).fetch
  => 
 shape: (4_756, 3_992)                                                                             
 ...      
-3.1.2 :006 > x = FfiecAsDataframe::CallReport.new(dt= '2023-12-31'.to_date).fetch
+3.3.x :006 > x = FfiecAsDataframe::CallReport.new(dt= '2023-12-31'.to_date).fetch
  => 
 shape: (4_641, 3_923)                                                                             
 ...                                                                                               
-3.1.2 :007 > x
+3.3.x :007 > x
  => 
 shape: (4_641, 3_923)                                                                             
 ┌─────────┬─────────────────────────┬────────────────────┬───────────────────┬───┬──────────┬──────────┬──────────┬──────────┐
@@ -86,12 +91,12 @@ shape: (4_641, 3_923)
 
 Additionally, a single table (which may be contained in one or more parts) may be fetched using the "tbl" argument to the "new" call.  Note that, as in the following example, the "tbl" argument must contain the entire table mnemonic; here we fetched only the "RC" table, despite there being many other tables that also have a mnemonic that starts with "RC".
 
-```{ruby}
-3.1.2 :009 > x = FfiecAsDataframe::CallReport.new(dt= '2022-12-31'.to_date, tbl = 'RC').fetch
+```ruby
+3.3.x :009 > x = FfiecAsDataframe::CallReport.new(dt= '2022-12-31'.to_date, tbl = 'RC').fetch
  => 
 shape: (4_757, 80)                                                                                
 ...                                                                                               
-3.1.2 :010 > x
+3.3.x :010 > x
  => 
 shape: (4_757, 80)                                                                                
 ┌─────────┬──────────────────────────┬─────────────────────┬────────────────────┬───┬──────────────────┬─────────────────┬─────────────────────────────────┬──────────────────┐
@@ -116,6 +121,15 @@ shape: (4_757, 80)
 
 Note that this package uses Selenium in order to run javascript on the FFIEC site before downloading the entire call report.  If you have issues running Selenium (which will invoke the generation of a "headless" Chrome session), you may want to include an "options" parameter in the creation of the CallReport object and include "options={headless: false}".
 
+## Testing
+
+This gem uses minitest for testing. Run tests with:
+
+```bash
+bundle exec rake test
+```
+
+Tests mock Selenium/Chrome interactions to avoid external dependencies. No GitHub Actions or CI workflows are configured.
 
 ## Development
 

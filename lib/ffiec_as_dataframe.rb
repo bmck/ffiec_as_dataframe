@@ -3,7 +3,6 @@
 require_relative "ffiec_as_dataframe/version"
 require_relative "ffiec_as_dataframe/call_report"
 
-module FFiecAsDataframe
+module FfiecAsDataframe
   class Error < StandardError; end
-  # Your code goes here...
 end

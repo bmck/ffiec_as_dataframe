@@ -1,6 +1,6 @@
-# FdicAsDataframe
+# FfiecAsDataframe
 
-Up to date remote economic data access for ruby, using Polars dataframes. 
+Up-to-date call report data access for Ruby, using Polars dataframes. 
 
 This package will fetch call report data (from US banks) from the Federal Financial Institutions Examination Council (FFIEC), and return the results as a Polars Dataframe. 
 
@@ -125,7 +125,7 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/ffiec_as_dataframe. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [code of conduct](https://github.com/[USERNAME]/ffiec_as_dataframe/blob/main/CODE_OF_CONDUCT.md).
+Bug reports and pull requests are welcome on GitHub at https://github.com/bmck/ffiec_as_dataframe. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [code of conduct](https://github.com/bmck/ffiec_as_dataframe/blob/main/CODE_OF_CONDUCT.md).
 
 ## License
 
@@ -133,4 +133,4 @@ The gem is available as open source under the terms of the [MIT License](https:/
 
 ## Code of Conduct
 
-Everyone interacting in the FdicAsDataframe project's codebases, issue trackers, chat rooms and mailing lists is expected to follow the [code of conduct](https://github.com/[USERNAME]/ffiec_as_dataframe/blob/main/CODE_OF_CONDUCT.md).
+Everyone interacting in the FfiecAsDataframe project's codebases, issue trackers, chat rooms and mailing lists is expected to follow the [code of conduct](https://github.com/bmck/ffiec_as_dataframe/blob/main/CODE_OF_CONDUCT.md).

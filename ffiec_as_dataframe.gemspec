@@ -28,11 +28,13 @@ Gem::Specification.new do |spec|
   spec.require_paths = ["lib"]
 
   # Uncomment to register a new dependency of your gem
+  spec.add_dependency 'csv', '~> 3.3'
   spec.add_dependency 'polars-df', '0.27.1'
-  spec.add_dependency 'rubyzip'
-  spec.add_dependency 'activesupport', '~> 6', '<7.0.8'
-  spec.add_dependency 'selenium-webdriver'
+  spec.add_dependency 'rubyzip', '~> 3.7'
+  spec.add_dependency 'activesupport', '~> 8.1'
+  spec.add_dependency 'selenium-webdriver', '~> 4.54'
 
-  spec.add_development_dependency 'minitest', '~> 5.0'
+  spec.add_development_dependency 'minitest', '~> 6.1'
+  spec.add_development_dependency 'minitest-mock', '~> 5.27'
   spec.add_development_dependency 'rake', '~> 13.0'
 end

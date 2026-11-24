@@ -7,39 +7,29 @@ require "fileutils"
 class CallReportTest < Minitest::Test
   def test_fetch_returns_dataframe_with_mocked_selenium
     call_report = FfiecAsDataframe::CallReport.new(Date.new(2023, 12, 31))
-    
-    mock_driver = nil
-    mock_options = Minitest::Mock.new
-    mock_options.expect(:add_argument, nil, [String])
-    mock_options.expect(:prefs=, nil, [Hash])
-    
-    original_mktmpdir = Dir.method(:mktmpdir)
-    Dir.define_singleton_method(:mktmpdir) do |*args, &block|
-      original_mktmpdir.call(*args) do |tmpdir|
-        mock_driver = MockWebDriver.new(tmpdir)
-        block.call(tmpdir)
-      end
+    result = nil
+
+    mock_driver, mock_options = _with_stubbed_browser do
+      result = call_report.fetch
     end
-    
-    begin
-      Selenium::WebDriver::Chrome::Options.stub :new, mock_options do
-        Selenium::WebDriver.stub :for, lambda { |*args| mock_driver } do
-          Object.stub :sleep, nil do
-            result = call_report.fetch
-            
-            assert_instance_of Polars::DataFrame, result
-            assert result.height > 0
-            assert_includes result.columns, "IDRSSD"
-          end
-        end
-      end
-      
-      assert mock_driver.quit_called, "WebDriver quit should be called"
-      mock_options.verify
-    ensure
-      Dir.singleton_class.send(:remove_method, :mktmpdir)
-      Dir.define_singleton_method(:mktmpdir, original_mktmpdir)
+
+    assert_instance_of Polars::DataFrame, result
+    assert result.height > 0
+    assert_includes result.columns, "IDRSSD"
+    assert mock_driver.quit_called, "WebDriver quit should be called"
+    mock_options.verify
+  end
+
+  def test_fetch_uses_latest_published_date_when_quarter_is_missing
+    call_report = FfiecAsDataframe::CallReport.new(Date.new(2020, 6, 30))
+    result = nil
+
+    _with_stubbed_browser do
+      result = call_report.fetch
     end
+
+    assert_instance_of Polars::DataFrame, result
+    assert_equal [12345, 67890], result["IDRSSD"].to_a
   end
 
   def test_initialization_with_defaults
@@ -68,6 +58,38 @@ class CallReportTest < Minitest::Test
     call_report = FfiecAsDataframe::CallReport.new(Date.today, nil, opts)
     
     assert_equal opts, call_report.opts
+  end
+
+  private
+
+  def _with_stubbed_browser
+    mock_driver = nil
+    mock_options = Minitest::Mock.new
+    mock_options.expect(:add_argument, nil, [String])
+    mock_options.expect(:prefs=, nil, [Hash])
+
+    original_mktmpdir = Dir.method(:mktmpdir)
+    Dir.define_singleton_method(:mktmpdir) do |*args, &block|
+      original_mktmpdir.call(*args) do |tmpdir|
+        mock_driver = MockWebDriver.new(tmpdir)
+        block.call(tmpdir)
+      end
+    end
+
+    begin
+      Selenium::WebDriver::Chrome::Options.stub :new, mock_options do
+        Selenium::WebDriver.stub :for, lambda { |*args| mock_driver } do
+          Object.stub :sleep, nil do
+            yield
+          end
+        end
+      end
+
+      [mock_driver, mock_options]
+    ensure
+      Dir.singleton_class.send(:remove_method, :mktmpdir)
+      Dir.define_singleton_method(:mktmpdir, original_mktmpdir)
+    end
   end
 end
 

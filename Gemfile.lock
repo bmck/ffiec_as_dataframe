@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    ffiec_as_dataframe (0.2.0)
+    ffiec_as_dataframe (0.3.0)
       activesupport (~> 8.1)
       csv (~> 3.3)
       polars-df (= 0.27.1)

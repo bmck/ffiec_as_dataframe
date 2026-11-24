@@ -1,5 +1,7 @@
 ## [Unreleased]
 
+## [0.3.0] - 2026-11-24
+
 - Move ActiveSupport from the end-of-life 6.1 line to 8.1
 - Require current rubyzip 3.7, selenium-webdriver 4.54, and minitest 6
 - Load mocks from the minitest-mock gem after minitest 6 removed them

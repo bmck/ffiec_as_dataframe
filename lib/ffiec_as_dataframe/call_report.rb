@@ -5,6 +5,7 @@ require 'zip'
 require 'tempfile'
 require 'selenium-webdriver'
 require 'active_support/core_ext/date/calculations'
+require 'active_support/core_ext/object/blank'
 require 'active_support/core_ext/string/conversions'
 
 module FfiecAsDataframe
@@ -37,7 +38,12 @@ module FfiecAsDataframe
         if (opt = driver.find_elements(css: 'select#DatesDropDownList option').detect{ |o| o.text == dte }).present?
           opt.click() 
         else
-          dtes = driver.find_elements(css: 'select#DatesDropDownList option').map{|o| o.text.to_date }
+          dtes = driver.find_elements(css: 'select#DatesDropDownList option').filter_map do |option|
+            text = option.text.to_s
+            next if text.blank?
+
+            Date.strptime(text, "%m/%d/%Y")
+          end
           dte = dtes.max.strftime("%m/%d/%Y").to_s
           driver.find_elements(css: 'select#DatesDropDownList option').detect{|o| o.text == dte }.click() 
         end
